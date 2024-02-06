@@ -1,3 +1,9 @@
+
+<h1 align="center">
+  <img alt="NLW Expert (React)" title="NLW Expert (React)" src="./.github/logo-nlw-expert.svg" width="220px" />
+</h1>
+
+
 ![Cover](./.github/cover.png)
 
 # NLW Expert (React)
