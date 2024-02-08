@@ -26,6 +26,10 @@ export function App() {
         <NoteCard note = {note}/>
         <NoteCard note = {note}/>
       </div>
+      
+
+
     </div>
+    
   );
 }
