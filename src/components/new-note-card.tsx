@@ -2,6 +2,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import {X} from "lucide-react";
 import {ChangeEvent, FormEvent, useState} from "react";
 import { toast } from "sonner"
+import {format} from "date-fns";
+import {ptBR} from "date-fns/locale";
 
 export function NewNoteCard() {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
@@ -21,9 +23,11 @@ export function NewNoteCard() {
   function handleSaveNote(event: FormEvent) {
     event.preventDefault();
 
-    console.log(content)
-
-    toast.success(`Nota: ${content}, criada com sucesso!`)
+    toast.success(`Nota: ${content}, criada com sucesso!`, {
+    description: format(new Date(),"'Criado em: ' dd/mm/yyyy 'ás ' h 'horas'", {
+      locale:ptBR 
+    })
+  })
   }
 
   return (

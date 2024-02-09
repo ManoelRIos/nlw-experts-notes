@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import {formatDistanceToNow} from "date-fns";
+import {formatDistanceToNow, format} from "date-fns";
 import {ptBR} from "date-fns/locale";
 import {X} from "lucide-react";
 
@@ -11,7 +11,6 @@ interface NoteCardProps {
 }
 
 export function NoteCard({note}: NoteCardProps) {
-  
   
   return (
     <Dialog.Root>
