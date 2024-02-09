@@ -1,20 +1,25 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import {X} from "lucide-react";
 import {ChangeEvent, FormEvent, useState} from "react";
-import { toast } from "sonner"
+import {toast} from "sonner";
 import {format} from "date-fns";
 import {ptBR} from "date-fns/locale";
 
-export function NewNoteCard() {
+interface NewNoteCardProps {
+  onNoteCreated: (content: string) => void;
+}
+
+export function NewNoteCard({onNoteCreated}: NewNoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
 
   function handleStartEditor() {
     setShouldShowOnboarding(false);
   }
 
   function handleContentChanged(event: ChangeEvent<HTMLTextAreaElement>) {
-    setContent(event.target.value)
+    setContent(event.target.value);
     if (event.target.value === "") {
       setShouldShowOnboarding(true);
     }
@@ -23,17 +28,31 @@ export function NewNoteCard() {
   function handleSaveNote(event: FormEvent) {
     event.preventDefault();
 
+    if(content === ''){
+      toast.warning(`Adicione um conteúdo!`);
+      return
+    }
+    onNoteCreated(content);
+
+    setContent('');
+    setShouldShowOnboarding(true);
+
     toast.success(`Nota: ${content}, criada com sucesso!`, {
-    description: format(new Date(),"'Criado em: ' dd/mm/yyyy 'ás ' h 'horas'", {
-      locale:ptBR 
-    })
-  })
+      description: format(new Date(), "'Criado em: ' dd/mm/yyyy 'ás ' h 'horas'", {
+        locale: ptBR,
+      }),
+    });
   }
 
+  function handleStartRecording(){ 
+
+  }
+  
   return (
     <Dialog.Root>
       <Dialog.Trigger className="rounded-md flex flex-col text-left bg-slate-700 p-5 outline-none hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
         <span className="text-sm font-medium text-slate-200">Adicionar Nota</span>
+        <p className="text-sm leading-6 text-slate-400">Grave uma nota em áudio que será convertida para texto automaticamente.</p>
       </Dialog.Trigger>
 
       <Dialog.Portal>
@@ -47,14 +66,14 @@ export function NewNoteCard() {
                 <span className="text-sm font-medium text-slate-200">Adicionar Nota</span>
                 {shouldShowOnboarding ? (
                   <p className="text-sm leading-6 text-slate-400">
-                    Comece <button className="font-medium text-lime-400 hover:underline"> gravando uma nota </button> em áudio ou se preferir{" "}
+                    Comece <button onClick={handleStartRecording} className="font-medium text-lime-400 hover:underline"> gravando uma nota </button> em áudio ou se preferir{" "}
                     <button onClick={handleStartEditor} className="font-medium text-lime-400 hover:underline">
                       utilize apenas
                     </button>
                     .
                   </p>
                 ) : (
-                  <textarea autoFocus className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none" onChange={handleContentChanged}></textarea>
+                  <textarea autoFocus className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none" onChange={handleContentChanged} value={content}></textarea>
                 )}
               </div>
 
