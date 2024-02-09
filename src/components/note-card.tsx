@@ -11,6 +11,8 @@ interface NoteCardProps {
 }
 
 export function NoteCard({note}: NoteCardProps) {
+  
+  
   return (
     <Dialog.Root>
       <Dialog.Trigger className="rounded-md text-left flex-col outline-none bg-slate-800 p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-slate-600 focus-visible:ring-2 focus-visible:ring-lime-400">
